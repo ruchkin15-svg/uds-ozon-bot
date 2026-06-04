@@ -29,10 +29,8 @@ def send_welcome(message):
     
     bot.send_message(chat_id, welcome_text, reply_markup=markup)
 
-@bot.message_handler(func=lambda message: message.text in [
-    "Только Wildberries", "Wildberries + Ozon", "Свой интернет-магазин / Сайт"
-])
-def handle_general_sellers(message):
+@bot.message_handler(func=lambda message: message.text in ["Только Wildberries", "Свой интернет-магазин / Сайт"])
+def handle_wb_or_site_sellers(message):
     chat_id = message.chat.id
     user_data[chat_id]['platform'] = message.text
     
@@ -45,7 +43,7 @@ def handle_general_sellers(message):
     )
     
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-    btn_next = types.KeyboardButton("🚀 Хочу аудит и разбор бизнеса")
+    btn_next = types.KeyboardButton("🚀 Хочу audit и разбор бизнеса")
     markup.add(btn_next)
     bot.send_message(chat_id, presentation_text, reply_markup=markup, disable_web_page_preview=False)
 
@@ -64,11 +62,33 @@ def handle_ozon_seller(message):
     )
     
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-    btn_next = types.KeyboardButton("🚀 Хочу аудит и разбор бизнеса")
+    btn_next = types.KeyboardButton("🚀 Хочу audit и разбор бизнеса")
     markup.add(btn_next)
     bot.send_message(chat_id, presentation_text, reply_markup=markup, disable_web_page_preview=False)
 
-@bot.message_handler(func=lambda message: message.text == "🚀 Хочу аудит и разбор бизнеса")
+@bot.message_handler(func=lambda message: message.text == "Wildberries + Ozon")
+def handle_multi_seller(message):
+    chat_id = message.chat.id
+    user_data[chat_id]['platform'] = message.text
+    
+    presentation_text = (
+        "🎯 Сильное решение! Работа на двух крупнейших маркетплейсах одновременно дает огромный охват, "
+        "но кратно увеличивает расходы на комиссии и удержание клиентов.\n\n"
+        "Поскольку вы развиваете мультиплатформенные продажи, для вас актуальны сразу оба наших решения. "
+        "Изучите эти материалы:\n\n"
+        "1️⃣ Разбор модели продаж и создание базы для Wildberries:\n"
+        "👉 Ссылка: https://youtu.be/cujG178EMwg?is=IyFJw19m_I2__OBk\n\n"
+        "2️⃣ Работа с интеграцией UDS x Ozon Доставка без комиссий:\n"
+        "👉 Ссылка: https://youtu.be/XRnaIY40t4Y?is=WTUrkOGxhUBrmtON\n\n"
+        "После ознакомления нажмите кнопку ниже. Мы проведем комплексный аудит ваших каналов продаж."
+    )
+    
+    markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    btn_next = types.KeyboardButton("🚀 Хочу audit и разбор бизнеса")
+    markup.add(btn_next)
+    bot.send_message(chat_id, presentation_text, reply_markup=markup, disable_web_page_preview=False)
+
+@bot.message_handler(func=lambda message: message.text == "🚀 Хочу audit и разбор бизнеса")
 def request_contact(message):
     chat_id = message.chat.id
     
